@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css"/>
 </head>
 <body>
-<h1 style="text-align: center">ContactBook</h1>
+<h1 style="text-align: center">NoteBook</h1>
     {% with messages = get_flashed_messages() %}
         {% if messages %}
             {% for message in messages %}
@@ -17,36 +17,31 @@
     {% endwith %}
 <main class="container">
     <a href="/" role="button">Home</a>
-    <a href="/add_contact" role="button">Add contact</a>
+    <a href="/add_note" role="button">New note</a>
+    <a href="/add_tag" role="button">New tag</a>
     <table>
         <thead>
         <tr>
             <th>ID</th>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Phone</th>
-            <th>Email</th>
-            <th>Birthday</th>
-            <th>Address</th>
+            <th>Title</th>
+            <th>Note</th>
+            <th>Tags</th>
             <th>Created</th>
         </tr>
         </thead>
         <tbody>
-        {% for contact in contacts %}
+        {% for note in notes %}
         <tr>
-            <th>{{contact.id}}</th>
-            <td>{{contact.first_name}}</td>
-            <td>{{contact.last_name}}</td>
-            <td>{{contact.phone}}</td>
-            <td>{{contact.email}}</td>
-            <td>{{contact.birthday}}</td>
-            <td>{{contact.address}}</td>
-            <td>{{contact.created}}</td>
+            <th>{{note.id}}</th>
+            <td>{{note.title}}</td>
+            <td>{{note.text}}</td>
+            <td>{{note.tags|join(', ', attribute='name')}}</td>
+            <td>{{note.created}}</td>
             <td>
-                <a href="/edit_contact/{{contact.id}}" role="button">Edit</a>
+                <a href="/edit_note/{{note.id}}" role="button">Edit</a>
             </td>
             <td>
-                <a href="/delete_contact/{{contact.id}}" role="button">Delete</a>
+                <a href="/delete_note/{{note.id}}" role="button">Delete</a>
             </td>
         </tr>
         {% endfor %}

@@ -1,8 +1,8 @@
-"""Init
+"""Initial
 
-Revision ID: e8eb1d208199
+Revision ID: 8ae4e9af270d
 Revises: 
-Create Date: 2022-12-13 17:57:08.830708
+Create Date: 2022-12-14 19:53:19.758183
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'e8eb1d208199'
+revision = '8ae4e9af270d'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,9 +24,9 @@ def upgrade():
     sa.Column('last_name', sa.String(length=50), nullable=False),
     sa.Column('email', sa.String(length=50), nullable=True),
     sa.Column('phone', sa.String(length=25), nullable=True),
-    sa.Column('birthday', sa.DateTime(), nullable=True),
+    sa.Column('birthday', sa.Date(), nullable=True),
     sa.Column('address', sa.String(length=90), nullable=True),
-    sa.Column('created', sa.DateTime(), nullable=True),
+    sa.Column('created', sa.Date(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('phone')
@@ -34,17 +34,16 @@ def upgrade():
     op.create_table('notes',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=50), nullable=False),
-    sa.Column('note_text', sa.String(length=250), nullable=False),
-    sa.Column('created', sa.DateTime(), nullable=True),
+    sa.Column('text', sa.String(length=250), nullable=False),
+    sa.Column('created', sa.Date(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('title')
     )
     op.create_table('tags',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('tag_name', sa.String(length=25), nullable=False),
-    sa.Column('created', sa.DateTime(), nullable=True),
+    sa.Column('name', sa.String(length=25), nullable=False),
     sa.PrimaryKeyConstraint('id'),
-    sa.UniqueConstraint('tag_name')
+    sa.UniqueConstraint('name')
     )
     op.create_table('note_m2m_tag',
     sa.Column('id', sa.Integer(), nullable=False),

@@ -13,7 +13,7 @@
         <a href="/contacts" role="button">Contacts</a>
     {% if messages %}
         {% for message in messages %}
-            <div class="alert alert-info">{{ message }}: {{messages[message]}}</div>
+            <div class="alert alert-info">{{message}}: {{messages[message]}}</div>
         {% endfor %}
     {% endif %}
     <form method="POST" action="/edit_contact/{{contact.id}}">

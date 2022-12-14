@@ -2,32 +2,33 @@ from src import models, db
 import datetime
 
 
-def create_notes(title, note_text, tags):
-    note = models.Note(title=title, note_text=note_text, created_at=datetime.datetime.now())
+def create_notes(title, text, tags):
+    tags_obj = []
     for tag in tags:
-        tag = models.Tag.query.filter_by(tag_name=tag).first()
-        note.tags.append(tag)
+        tags_obj.append(db.session.query(models.Tag).filter(models.Tag.name == tag).first())
+    note = models.Note(title=title, text=text, tags=tags_obj)
     db.session.add(note)
     db.session.commit()
 
 
-def update_notes(title, note_text, tags):
-    note = models.Note.query.filter_by(title=title).first()
-    note.note_text = note_text
+def update_notes(note_id, title, text, tags):
+    tags_obj = []
     for tag in tags:
-        tag = models.Tag.query.filter_by(tag_name=tag).first()
-        note.tags.append(tag)
+        tags_obj.append(db.session.query(models.Tag).filter(models.Tag.name == tag).first())
+    note = models.Note.query.filter_by(id=note_id).first()
+    note.title = title
+    note.text = text
+    note.tags = tags_obj
     db.session.commit()
 
 
-def delete_notes(title):
-    note = models.Note.query.filter_by(title=title).first()
-    db.session.delete(note)
+def delete_notes(note_id):
+    db.session.query(models.Note).filter(models.Note.id == note_id).delete()
     db.session.commit()
 
 
-def get_note_by_title(title):
-    note = models.Note.query.filter_by(title=title).first()
+def get_note_by_id(note_id):
+    note = models.Note.query.filter_by(id=note_id).first()
     return note
 
 
@@ -41,8 +42,12 @@ def get_all_notes():
     return notes
 
 
-def add_tag_to_note(title, tag):
-    note = models.Note.query.filter_by(title=title).first()
-    tag = models.Tag.query.filter_by(tag_name=tag).first()
-    note.tags.append(tag)
+def add_tag(name):
+    tag = models.Tag(name=name)
+    db.session.add(tag)
     db.session.commit()
+
+
+def get_all_tags():
+    tags = models.Tag.query.all()
+    return tags

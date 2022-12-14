@@ -24,6 +24,7 @@ class Contact(db.Model):
     address = db.Column(db.String(CONTACT_ADDRESS_LENGTH))
     created = db.Column(db.Date, default=datetime.now())
 
+    @property
     def full_name(self):
         return f"{self.first_name} {self.last_name}"
 
@@ -32,7 +33,7 @@ class Note(db.Model):
     __tablename__ = "notes"
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(NOTE_DEFAULT_LENGTH), nullable=False, unique=True)
-    note_text = db.Column(db.String(NOTE_TEXT_LENGTH), nullable=False)
+    text = db.Column(db.String(NOTE_TEXT_LENGTH), nullable=False)
     tags = relationship("Tag", secondary="note_m2m_tag", backref="notes")
     created = db.Column(db.Date, default=datetime.now().date())
 
@@ -40,5 +41,5 @@ class Note(db.Model):
 class Tag(db.Model):
     __tablename__ = "tags"
     id = db.Column(db.Integer, primary_key=True)
-    tag_name = db.Column(db.String(TAG_NAME_LENGTH), nullable=False, unique=True)
-    created = db.Column(db.Date, default=datetime.now())
+    name = db.Column(db.String(TAG_NAME_LENGTH), nullable=False, unique=True)
+

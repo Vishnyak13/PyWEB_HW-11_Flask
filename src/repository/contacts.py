@@ -22,8 +22,8 @@ def update_contacts(cont_id, first_name, last_name, email, phone, birthday, addr
     db.session.commit()
 
 
-def delete_contacts(first_name, last_name):
-    contact = models.Contact.query.filter_by(first_name=first_name, last_name=last_name).first()
+def delete_contacts(cont_id):
+    contact = models.Contact.query.filter_by(id=cont_id).first()
     db.session.delete(contact)
     db.session.commit()
 
